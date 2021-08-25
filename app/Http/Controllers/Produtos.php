@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Produto;
 
 class Produtos extends Controller
 {
@@ -61,12 +62,15 @@ class Produtos extends Controller
      */
     public function store(Request $request)//Salvar um novo item
     {
-        $produtos = session('produtos');
+        /*$produtos = session('produtos');
         $id = count($produtos) + 1;
-        $nome = $request->nome;
         $dados = ['id'=>$id, 'nome'=>$nome];
         $produtos[] = $dados;
         session(['produtos'=> $produtos]);
+        return redirect()->route('produtos.index');*/
+
+        $nome = $request->nome;
+        Produto::create(["nome"=>$nome]);
         return redirect()->route('produtos.index');
     }
 
