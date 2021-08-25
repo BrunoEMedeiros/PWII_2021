@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Cliente;
 
 class Clientes extends Controller
 {
@@ -62,12 +63,16 @@ class Clientes extends Controller
      */
     public function store(Request $request)//Usado para receber um POST do forumlario para salvar o novo registro no banco
     {
-        $clientes = session('clientes');
+        /*$clientes = session('clientes');
         $id = end($clientes)['id'] + 1;
-        $nome = $request->nome;
+
         $dados = ["id"=>$id, "nome"=>$nome ];
         $clientes[] = $dados;
         session(['clientes' => $clientes]);
+
+        */
+        $nome = $request->nome;
+        $cliente = Cliente::create(["nome"=>$nome]);
         return redirect()->route('clientes.index');
     }
 

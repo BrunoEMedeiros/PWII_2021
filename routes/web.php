@@ -28,6 +28,13 @@ Route::prefix('/produtos')->group( function(){
 
     Route::post('/create/store', [Produtos::class, 'store'])->name('produtos.store');
 
+    Route::get('/show/{id}', [Produtos::class, 'show'])->name('produtos.show');
+
+    Route::get('/edit/{id}', [Produtos::class, 'edit'])->name('produtos.edit');
+
+    Route::put('/edit/update/{id}', [Produtos::class, 'update'])->name('produtos.update');
+
+
 });
 
 //rota que redireciona para um controller

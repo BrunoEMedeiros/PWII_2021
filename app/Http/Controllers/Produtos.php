@@ -26,6 +26,13 @@ class Produtos extends Controller
         }
     }
 
+    public function getIndex($id, $produtos)
+    {
+        $ids =  array_column($produtos, 'id');
+        $index = array_search($id, $ids);
+        return $index;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -71,7 +78,10 @@ class Produtos extends Controller
      */
     public function show($id)//Mostar um item especifico
     {
-        //
+        $produtos = session('produtos');
+        $index = $this->getIndex($id, $produtos);
+        $produtos = $produtos[$index];
+        return view('produtos.show', compact(['produtos']));
     }
 
     /**
@@ -82,7 +92,10 @@ class Produtos extends Controller
      */
     public function edit($id)//Criar um formulario de edição
     {
-        //
+        $produtos = session('produtos');
+        $index = $this->getIndex($id, $produtos);
+        $produtos = $produtos[$index];
+        return view('produtos.edit', compact(['produtos']));
     }
 
     /**
@@ -94,7 +107,11 @@ class Produtos extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $produtos = session('produtos');
+        $index = $this->getIndex($id, $produtos);
+        $produtos[$index]['nome'] = $request->nome;
+        session(['produtos' => $produtos]);
+        return redirect()->route('produtos.index');
     }
 
     /**
