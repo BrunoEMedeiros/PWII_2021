@@ -41,7 +41,8 @@ class Produtos extends Controller
      */
     public function index()//Listar todos os itens
     {
-        $produtos = session('produtos');
+        //$produtos = session('produtos');
+        $produtos = Produto::all();
         return view('produtos.index', compact(['produtos']));
     }
 
