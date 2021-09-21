@@ -7,33 +7,6 @@ use App\Models\Produto;
 
 class Produtos extends Controller
 {
-
-    public $produtos = [
-        ['id'=>1,'nome'=>'coca-cola'],
-        ['id'=>2,'nome'=>'açucar'],
-        ['id'=>3,'nome'=>'pão'],
-        ['id'=>4,'nome'=>'arroz'],
-        ['id'=>5, 'nome'=>'feijão']
-
-    ];//Array de objetos
-
-    public function __construct()
-    {
-        $produtos = session('produtos');
-
-        if(!isset($produtos))
-        {
-            session(['produtos'=>$this->produtos]);
-        }
-    }
-
-    public function getIndex($id, $produtos)
-    {
-        $ids =  array_column($produtos, 'id');
-        $index = array_search($id, $ids);
-        return $index;
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -42,13 +15,6 @@ class Produtos extends Controller
     public function index()//Listar todos os itens
     {
         $produtos = Produto::all();
-        //return view('produtos.index', compact(['produtos']));
-        /*return view('produtos.index')->with('clientes',$produtos)
-                                    ->with('teste',1);
-        */
-        //return view('produtos.index')->with('produtos',$produtos); //passando uma variavel como parametro
-        //return view('produtos.index', ['produtos'=>$produtos]);
-        return view('produtos.index')->with('produtos', $produtos);
 
     }
 
@@ -69,15 +35,9 @@ class Produtos extends Controller
      */
     public function store(Request $request)//Salvar um novo item
     {
-        /*$produtos = session('produtos');
-        $id = count($produtos) + 1;
-        $dados = ['id'=>$id, 'nome'=>$nome];
-        $produtos[] = $dados;
-        session(['produtos'=> $produtos]);
-        return redirect()->route('produtos.index');*/
 
-        $nome = $request->nome;
-        Produto::create(["nome"=>$nome]);
+
+        Produto::create();
         return redirect()->route('produtos.index');
     }
 
@@ -90,7 +50,6 @@ class Produtos extends Controller
     public function show($id)//Mostar um item especifico
     {
         $produtos = Produto::find($id);
-        //$produtos = Produto::where('nome', 'bruno')->get();;
         return view('produtos.show', compact(['produtos']));
     }
 
@@ -102,10 +61,6 @@ class Produtos extends Controller
      */
     public function edit($id)//Criar um formulario de edição
     {
-        /*$produtos = session('produtos');
-        $index = $this->getIndex($id, $produtos);
-        $produtos = $produtos[$index];
-        */
         $produtos = Produto::find($id);
         return view('produtos.edit', compact(['produtos']));
     }
@@ -119,13 +74,7 @@ class Produtos extends Controller
      */
     public function update(Request $request, $id)
     {
-        /*$produtos = session('produtos');
-        $index = $this->getIndex($id, $produtos);
-        $produtos[$index]['nome'] = $request->nome;
-        session(['produtos' => $produtos]);*/
-        $produtos = Produto::find($id);
-        $produtos->nome =  $request->nome;
-        $produtos->save();
+
         return redirect()->route('produtos.index');
     }
 
